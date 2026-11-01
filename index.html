@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perkenalan Diri ✨</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1e2339 0%, #0f1221 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 35px 30px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+        
+        /* Area Foto Profil Tunggal (Di atas tulisan Perkenalan Diri) */
+        .avatar-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 18px;
+        }
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .avatar-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Tombol kecil ikon kamera di pojok foto */
+        .upload-label {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #ff758c;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
+        }
+        .upload-label:hover {
+            transform: scale(1.1);
+        }
+        #uploadFoto {
+            display: none;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #ffb6c1;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        /* List Informasi Diri */
+        .info-container {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ff758c;
+        }
+        .info-item {
+            margin-bottom: 12px;
+        }
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #f3f4f6;
+            font-weight: 500;
+        }
+
+        /* Form Kirim Sapaan */
+        .greet-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .greet-section h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #ffb6c1;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .input-field::placeholder {
+            color: #9ca3af;
+        }
+        .input-field:focus {
+            border-color: #ff758c;
+        }
+        textarea.input-field {
+            resize: none;
+            height: 70px;
+        }
+
+        .btn-greet {
+            width: 100%;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+        }
+        .btn-greet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.6);
+        }
+
+        /* Daftar Pesan Terkirim */
+        .messages-list {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .message-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.5s ease;
+        }
+        .message-author {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ff7eb3;
+        }
+        .message-text {
+            font-size: 13px;
+            color: #e5e7eb;
+            margin-top: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <!-- SATU-SATUNYA FOTO PROFIL (Di atas tulisan "Perkenalan Diri") -->
+        <div class="avatar-container">
+            <!-- Jika kamu punya file foto sendiri di folder (misal: foto.jpg), ganti 👨‍💻 dengan: <img src="foto.jpg" alt="Foto"> -->
+            <div class="avatar-placeholder" id="avatarPreview">👨‍💻</div>
+            
+            <!-- Tombol Kamera untuk pilih foto dari galeri -->
+            <label for="uploadFoto" class="upload-label" title="Ganti Foto">📷</label>
+            <input type="file" id="uploadFoto" accept="image/*" onchange="tampilkanFoto(event)">
+        </div>
+
+        <h1>Perkenalan Diri</h1>
+        <div class="subtitle">Personal Profile</div>
+        
+        <div class="info-container">
+            <div class="info-item">
+                <span class="info-label">Nama Lengkap</span>
+                <span class="info-value">Mochammad Raffi</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Universitas</span>
+                <span class="info-value">Universitas PGRI Ronggolawe</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Alamat Domisili</span>
+                <span class="info-value">Kabupaten Tuban</span>
+            </div>
+        </div>
+
+        <!-- Form Kirim Sapaan (Tanpa input foto) -->
+        <div class="greet-section">
+            <h3>Kirim Sapaan 💬</h3>
+            <input type="text" id="namaInput" class="input-field" placeholder="Nama Kamu">
+            <textarea id="pesanInput" class="input-field" placeholder="Tulis sapaan atau pesanmu..."></textarea>
+            <button class="btn-greet" onclick="kirimSapaan()">Kirim Sapaan 🚀</button>
+        </div>
+
+        <!-- Daftar Sapaan Terkirim -->
+        <div class="messages-list" id="messagesList"></div>
+    </div>
+
+    <script>
+        // Fungsi mengganti foto profil utama saat ikon kamera diklik
+        function tampilkanFoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarDiv = document.getElementById("avatarPreview");
+                    avatarDiv.innerHTML = `<img src="${e.target.result}" alt="Foto Profil">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Fungsi kirim pesan sapaan
+        function kirimSapaan() {
+            const nama = document.getElementById("namaInput").value.trim();
+            const pesan = document.getElementById("pesanInput").value.trim();
+
+            if (!nama || !pesan) {
+                alert("Harap isi nama dan pesan kamu terlebih dahulu! 😊");
+                return;
+            }
+
+            const messagesList = document.getElementById("messagesList");
+
+            const msgBox = document.createElement("div");
+            msgBox.className = "message-box";
+            msgBox.innerHTML = `
+                <div class="message-author">${escapeHtml(nama)}</div>
+                <div class="message-text">${escapeHtml(pesan)}</div>
+            `;
+
+            messagesList.insertBefore(msgBox, messagesList.firstChild);
+
+            document.getElementById("namaInput").value = "";
+            document.getElementById("pesanInput").value = "";
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+
+</body>
+</html>
